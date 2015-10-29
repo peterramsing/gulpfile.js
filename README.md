@@ -6,8 +6,10 @@ Bare-bones gulp file that minifies your JS and SCSS files at run time, and watch
 
 Using command line, cd to working directory and run the following:
 
-npm install --save-dev gulp
-npm install --save-dev gulp-uglify
-npm install --save-dev gulp-ruby-sass
+<ul>
+	<li>npm install --save-dev gulp</li>
+	<li>npm install --save-dev gulp-uglify</li>
+	<li>npm install --save-dev gulp-ruby-sass</li>
+</ul>
 
 Then run 'gulp'.
