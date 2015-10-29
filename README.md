@@ -4,7 +4,7 @@ Bare-bones gulp file that minifies your JS and SCSS files at run time, and watch
 
 # Dependencies 
 
-Using command line, cd to working directory and run the following:
+Assuming gulp is already installed on your machine, cd to working directory and run the following:
 
 <ul>
 	<li>npm install --save-dev gulp</li>
