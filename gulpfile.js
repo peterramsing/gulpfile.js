@@ -1,28 +1,23 @@
 var gulp         = require('gulp'),
 	uglify       = require('gulp-uglify'),
 	sass         = require('gulp-sass'),
+	plumber      = require('gulp-plumber'),
 	rename       = require('gulp-rename'),
-	notify       = require('gulp-notify'),
-	autoprefixer = require('gulp-autoprefixer');
+	notify       = require('gulp-notify');
 
 var watch_paths = {
-	scripts: ['assets/js/libs/*.js'],
+	scripts: ['assets/js/*.js'],
 	styles:  ['assets/css/scss/**/*.scss']
 };
-
-function errorLog(error) {
-	console.error.bind(error);
-	this.emit('end');
-}
 
 // Scripts Task
 gulp.task('scripts', function(){
 	gulp.src(watch_paths.scripts)
+	.pipe(plumber())
 	.pipe(rename({
         suffix: '.min'
     }))
 	.pipe(uglify())
-	.on('error', errorLog)
 	.pipe(gulp.dest('assets/js'))
 	.pipe(notify({ message: 'Scripts task complete' }));
 });
@@ -30,11 +25,10 @@ gulp.task('scripts', function(){
 // Styles Task
 gulp.task('styles', function(){
 	gulp.src(watch_paths.styles)
-	.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+	.pipe(plumber())
 	.pipe(sass({
 		outputStyle: 'compressed'
 	}))
-	.on('error', errorLog)
 	.pipe(gulp.dest('assets/css'))
 	.pipe(notify({ message: 'Styles task complete' }));
 });
