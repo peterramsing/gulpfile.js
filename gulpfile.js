@@ -3,38 +3,49 @@ var gulp         = require('gulp'),
 	sass         = require('gulp-sass'),
 	plumber      = require('gulp-plumber'),
 	rename       = require('gulp-rename'),
-	notify       = require('gulp-notify');
+	notify       = require('gulp-notify'),
+	jade		 = require('gulp-jade');
 
 var watch_paths = {
+	jade:    ['**/*.jade'],
 	scripts: ['assets/js/*.js'],
 	styles:  ['assets/css/scss/**/*.scss']
 };
 
 // Scripts Task
-gulp.task('scripts', function(){
+gulp.task('scripts', function() {
 	gulp.src(watch_paths.scripts)
-	.pipe(plumber())
-	.pipe(rename({
-        suffix: '.min'
-    }))
-	.pipe(uglify())
-	.pipe(gulp.dest('assets/js'))
-	.pipe(notify({ message: 'Scripts task complete' }));
+		.pipe(plumber())
+		.pipe(rename({
+        	suffix: '.min'
+    	}))
+		.pipe(uglify())
+		.pipe(gulp.dest('assets/js'))
+		.pipe(notify({ message: 'Scripts task complete' }));
 });
 
 // Styles Task
-gulp.task('styles', function(){
+gulp.task('styles', function() {
 	gulp.src(watch_paths.styles)
-	.pipe(plumber())
-	.pipe(sass({
-		outputStyle: 'compressed'
-	}))
-	.pipe(gulp.dest('assets/css'))
-	.pipe(notify({ message: 'Styles task complete' }));
+		.pipe(plumber())
+		.pipe(sass({
+			outputStyle: 'compressed'
+		}))
+		.pipe(gulp.dest('assets/css'))
+		.pipe(notify({ message: 'Styles task complete' }));
+});
+
+// Jade Task
+gulp.task('jade', function() {
+	gulp.src(watch_paths.jade)
+		.pipe(jade({
+	    	pretty: true
+	    }))
+		.pipe(gulp.dest('docs'));
 });
 
 // Watch Task
-gulp.task('watch', function(){
+gulp.task('watch', function() {
 	gulp.watch(watch_paths.scripts, ['scripts']);
 	gulp.watch(watch_paths.styles, ['styles']);
 });
