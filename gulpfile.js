@@ -3,6 +3,7 @@ var gulp         = require('gulp'),
 	sass         = require('gulp-sass'),
 	plumber      = require('gulp-plumber'),
 	rename       = require('gulp-rename'),
+	prefix       = require('gulp-autoprefixer'),
 	notify       = require('gulp-notify'),
 	jade		 = require('gulp-jade');
 
@@ -31,6 +32,7 @@ gulp.task('styles', function() {
 		.pipe(sass({
 			outputStyle: 'compressed'
 		}))
+		.pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
 		.pipe(gulp.dest('assets/css'))
 		.pipe(notify({ message: 'Styles task complete' }));
 });
