@@ -1,14 +1,16 @@
 var gulp         = require('gulp'),
+	postcss 	 = require('gulp-postcss'),
 	uglify       = require('gulp-uglify'),
-	sass         = require('gulp-sass'),
 	plumber      = require('gulp-plumber'),
 	rename       = require('gulp-rename'),
-	prefix       = require('gulp-autoprefixer'),
-	notify       = require('gulp-notify');
+	autoprefixer = require('autoprefixer'),
+	notify       = require('gulp-notify'),
+	sass         = require('gulp-sass'),
+	lost         = require('lost');
 
 var watch_paths = {
 	scripts: ['assets/js/*.js'],
-	styles:  ['assets/css/scss/**/*.scss']
+	styles:  ['assets/css/scss/*.scss']
 };
 
 // Scripts Task
@@ -25,12 +27,17 @@ gulp.task('scripts', function() {
 
 // Styles Task
 gulp.task('styles', function() {
+	var processors = [
+		lost,
+		autoprefixer({browsers:['last 2 version']})
+	];
+
 	gulp.src(watch_paths.styles)
+		.pipe(postcss(processors))
 		.pipe(plumber())
 		.pipe(sass({
 			outputStyle: 'compressed'
 		}))
-		.pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
 		.pipe(gulp.dest('assets/css'))
 		.pipe(notify({ message: 'Styles task complete' }));
 });
