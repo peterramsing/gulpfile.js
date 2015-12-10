@@ -4,11 +4,9 @@ var gulp         = require('gulp'),
 	plumber      = require('gulp-plumber'),
 	rename       = require('gulp-rename'),
 	prefix       = require('gulp-autoprefixer'),
-	notify       = require('gulp-notify'),
-	jade		 = require('gulp-jade');
+	notify       = require('gulp-notify');
 
 var watch_paths = {
-	jade:    ['**/*.jade'],
 	scripts: ['assets/js/*.js'],
 	styles:  ['assets/css/scss/**/*.scss']
 };
@@ -35,15 +33,6 @@ gulp.task('styles', function() {
 		.pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
 		.pipe(gulp.dest('assets/css'))
 		.pipe(notify({ message: 'Styles task complete' }));
-});
-
-// Jade Task
-gulp.task('jade', function() {
-	gulp.src(watch_paths.jade)
-		.pipe(jade({
-	    	pretty: true
-	    }))
-		.pipe(gulp.dest('docs'));
 });
 
 // Watch Task
