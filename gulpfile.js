@@ -6,7 +6,8 @@ var gulp         = require('gulp'),
 	autoprefixer = require('autoprefixer'),
 	notify       = require('gulp-notify'),
 	sass         = require('gulp-sass'),
-	lost         = require('lost');
+	browserSync  = require('browser-sync');
+	//lost         = require('lost');
 
 var watch_paths = {
 	scripts: ['assets/js/*.js'],
@@ -28,7 +29,7 @@ gulp.task('scripts', function() {
 // Styles Task
 gulp.task('styles', function() {
 	var processors = [
-		lost,
+		//lost,
 		autoprefixer({browsers:['last 2 version']})
 	];
 
@@ -39,13 +40,21 @@ gulp.task('styles', function() {
 			outputStyle: 'compressed'
 		}))
 		.pipe(gulp.dest('assets/css'))
-		.pipe(notify({ message: 'Styles task complete' }));
+		.pipe(notify({ message: 'Styles task complete' }))
+		.pipe(browserSync.stream({match: '**/*.css'}));
 });
+
+gulp.task('styles-watch', ['styles'], browserSync.reload);
 
 // Watch Task
 gulp.task('watch', function() {
+	browserSync({
+		server: {
+			baseDir: './'
+		}
+	});
 	gulp.watch(watch_paths.scripts, ['scripts']);
-	gulp.watch(watch_paths.styles, ['styles']);
+	gulp.watch(watch_paths.styles, ['styles-watch']);
 });
 
 gulp.task('default', ['scripts', 'styles', 'watch']);
