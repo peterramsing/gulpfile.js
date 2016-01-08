@@ -34,11 +34,11 @@ gulp.task('styles', function() {
 	];
 
 	gulp.src(watch_paths.styles)
-		.pipe(postcss(processors))
 		.pipe(plumber())
 		.pipe(sass({
 			outputStyle: 'compressed'
 		}))
+		.pipe(postcss(processors))
 		.pipe(gulp.dest('assets/css'))
 		.pipe(notify({ message: 'Styles task complete' }))
 		.pipe(browserSync.stream({match: '**/*.css'}));
